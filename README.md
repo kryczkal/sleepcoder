@@ -10,21 +10,33 @@ sessions instead of being re-derived on every query.
 
 ## Install — one line
 
-In any git repo, run:
+In any git repo (Linux or macOS), run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/AUTONOMOUS_LOOP_PROMPT.md -o AUTONOMOUS_LOOP_PROMPT.md
+curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/install.sh | bash
 ```
 
-Then in Claude Code, from the same directory:
+The installer writes `AUTONOMOUS_LOOP_PROMPT.md` to the current directory
+and prints the next step. That's it.
+
+The next step it prints — in Claude Code, from the same directory:
 
 ```
 /loop 5min read AUTONOMOUS_LOOP_PROMPT.md
 ```
 
-That's the entire setup. First iteration bootstraps a minimal `wiki/`
-if none exists. Every subsequent iteration runs the protocol:
-**ORIENT → DECIDE → ACT → VERIFY → CHECKPOINT**.
+First iteration bootstraps a minimal `wiki/` if none exists. Every
+subsequent iteration runs the protocol: **ORIENT → DECIDE → ACT →
+VERIFY → CHECKPOINT**.
+
+**Prefer to skip `curl | bash`?** Fetch the prompt file directly:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/AUTONOMOUS_LOOP_PROMPT.md -o AUTONOMOUS_LOOP_PROMPT.md
+```
+
+…then run the same `/loop 5min read AUTONOMOUS_LOOP_PROMPT.md` in Claude
+Code. Identical behavior, two extra keystrokes.
 
 ## How it works
 
@@ -86,20 +98,21 @@ topic branches.
 
 ## Share with a friend
 
-Send them the curl line at the top. They run it in any of their repos,
-then `/loop 5min read AUTONOMOUS_LOOP_PROMPT.md` in Claude Code. Done.
+One line. They run it in any of their repos and the installer tells
+them exactly what to do next.
 
 Copy-paste-ready message for chat:
 
-> Drop this in any git repo:
+> Autonomous loop for Claude Code — runs while you sleep, ships
+> topic-branches you merge later. In any git repo:
 >
 > ```
-> curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/AUTONOMOUS_LOOP_PROMPT.md -o AUTONOMOUS_LOOP_PROMPT.md
+> curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/install.sh | bash
 > ```
 >
-> Then in Claude Code: `/loop 5min read AUTONOMOUS_LOOP_PROMPT.md`.
-> First iteration sets up a wiki, every subsequent iter advances real
-> work. While you sleep.
+> The installer prints the next step (it's `/loop 5min read
+> AUTONOMOUS_LOOP_PROMPT.md` in Claude Code). First iteration sets up
+> a wiki, every subsequent iter advances real work.
 
 ## Control while it's running
 
