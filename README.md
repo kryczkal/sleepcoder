@@ -17,26 +17,40 @@ curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/install.sh
 ```
 
 The installer writes `AUTONOMOUS_LOOP_PROMPT.md` to the current directory
-and prints the next step. That's it.
+and prints the next step.
 
-The next step it prints — in Claude Code, from the same directory:
+The next step it prints — paste this in the same directory:
 
+```bash
+claude --dangerously-skip-permissions "/loop 5min read AUTONOMOUS_LOOP_PROMPT.md"
 ```
-/loop 5min read AUTONOMOUS_LOOP_PROMPT.md
+
+This launches Claude Code with the `/loop` command already filled in
+and skips the per-tool permission prompts so the loop actually
+progresses overnight instead of blocking on approvals. First iteration
+bootstraps a minimal `wiki/` if none exists. Every subsequent iteration
+runs the protocol: **ORIENT → DECIDE → ACT → VERIFY → CHECKPOINT**.
+
+**About `--dangerously-skip-permissions`:** it bypasses Claude Code's
+per-tool confirmation dialogs. The autonomous loop is built to run with
+it — the [safety rails](#safety-rails) live in the prompt itself, not
+in the per-tool prompts. If you'd rather supervise each tool call:
+
+```bash
+claude "/loop 5min read AUTONOMOUS_LOOP_PROMPT.md"
 ```
 
-First iteration bootstraps a minimal `wiki/` if none exists. Every
-subsequent iteration runs the protocol: **ORIENT → DECIDE → ACT →
-VERIFY → CHECKPOINT**.
+Same setup, but the loop will pause on impactful actions and wait for
+you.
 
-**Prefer to skip `curl | bash`?** Fetch the prompt file directly:
+**Prefer to skip `curl | bash` entirely?** Fetch the prompt file
+directly:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/AUTONOMOUS_LOOP_PROMPT.md -o AUTONOMOUS_LOOP_PROMPT.md
 ```
 
-…then run the same `/loop 5min read AUTONOMOUS_LOOP_PROMPT.md` in Claude
-Code. Identical behavior, two extra keystrokes.
+…then run either of the `claude …` commands above.
 
 ## How it works
 
@@ -110,9 +124,10 @@ Copy-paste-ready message for chat:
 > curl -fsSL https://raw.githubusercontent.com/kryczkal/sleepcoder/main/install.sh | bash
 > ```
 >
-> The installer prints the next step (it's `/loop 5min read
-> AUTONOMOUS_LOOP_PROMPT.md` in Claude Code). First iteration sets up
-> a wiki, every subsequent iter advances real work.
+> The installer prints the exact launch command — it's
+> `claude --dangerously-skip-permissions "/loop 5min read AUTONOMOUS_LOOP_PROMPT.md"`.
+> First iteration sets up a wiki, every subsequent iter advances real
+> work. Safety rails are in the prompt itself.
 
 ## Control while it's running
 
